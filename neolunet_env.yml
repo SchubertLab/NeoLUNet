@@ -1,0 +1,17 @@
+name: neolunet
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - numpy
+  - matplotlib
+  - py-opencv
+  - keras
+  - keras-preprocessing==1.0.9
+  - pandas
+  - scikit-learn
+  - tensorflow==2.0.0
+  - scikit-image
+  - seaborn
+  - statsmodels
+prefix: /Users/user/.conda/envs/neolunet
