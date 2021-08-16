@@ -32,7 +32,7 @@
 
 ────── [Functions for Volumetric Feature Extraction](mri_lung_segmentation/src/lung_volume_utils.py "lung_volume_utils.py")
 
-────── [Script to_Process_Paper Dataset](mri_lung_segmentation/src/generate_paper_results.py "generate_paper_results.py")
+────── [Script to Process Paper Dataset](mri_lung_segmentation/src/generate_paper_results.py "generate_paper_results.py")
 
 ────── [Script to Evaluate Paper Dataset](./mri_lung_segmentation/src/segm_evaluation_script.py "segm_evaluation_script.py")
    
@@ -45,9 +45,7 @@
 
 2. [BPD Severity Prediction](./bpd_severity_prediction)
 
-── 2.1 [Source](./bpd_severity_prediction/src)
-
-── 2.2 [Notebooks](./bpd_severity_prediction/notebooks)  
+── 2.1 [Notebooks](./bpd_severity_prediction/notebooks)
 
 3. [Paper Resources](./paper_analysis_figures)
 
@@ -64,4 +62,4 @@
 > ```
 
 ## Reference
-> - Bioarchiv: TBD
+> MedRxiv: <a href="https://www.medrxiv.org/content/10.1101/2021.08.06.21261648v1">Link</a>
