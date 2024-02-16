@@ -45,7 +45,7 @@
 
 2. [BPD Severity Prediction](./bpd_severity_prediction)
 
-── 2.1 [Notebooks](./bpd_severity_prediction/notebooks)
+── 2.1 [Notebooks](./bpd_severity_prediction/src/paper_experiments/)
 
 3. [Paper Resources](./paper_analysis_figures)
 
@@ -62,4 +62,4 @@
 > ```
 
 ## Reference
-> MedRxiv: <a href="https://www.medrxiv.org/content/10.1101/2021.08.06.21261648v1">Link</a>
+> Radiology Artificial Intelligence: <a href=https://doi.org/10.1148/ryai.220239>Link</a>
