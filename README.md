@@ -31,10 +31,6 @@
 ────── [Functions for Lung Segmentation](mri_lung_segmentation/src/segmentation_utils.py "segmentation_utils.py")
 
 ────── [Functions for Volumetric Feature Extraction](mri_lung_segmentation/src/lung_volume_utils.py "lung_volume_utils.py")
-
-────── [Script to Process Paper Dataset](mri_lung_segmentation/src/generate_paper_results.py "generate_paper_results.py")
-
-────── [Script to Evaluate Paper Dataset](./mri_lung_segmentation/src/segm_evaluation_script.py "segm_evaluation_script.py")
    
 ────── 1.1.1  [DL Utils](./mri_lung_segmentation/src/DL_utils)
 
@@ -42,10 +38,17 @@
 
 ──────────── [Segmentation Metrics](./mri_lung_segmentation/src/DL_utils/model2D.py "model2D.py")
 
+────── 1.1.2  [Experiments - Lung Segmentation for Paper](./mri_lung_segmentation/src/paper_experiments)
+
+────── [Script to Process Paper Dataset](mri_lung_segmentation/src/paper_experiments/generate_paper_results.py "generate_paper_results.py")
+
+────── [Script to Evaluate Paper Dataset](./mri_lung_segmentation/src/paper_experiments/segm_evaluation_script.py "segm_evaluation_script.py")
+
 
 2. [BPD Severity Prediction](./bpd_severity_prediction)
 
-── 2.1 [Notebooks](./bpd_severity_prediction/src/paper_experiments/)
+── 2.1 [Experiments for Nested Cross-Validation](./bpd_severity_prediction/src/paper_experiments/)
+
 
 3. [Paper Resources](./paper_analysis_figures)
 
@@ -62,4 +65,4 @@
 > ```
 
 ## Reference
-> Radiology Artificial Intelligence: <a href=https://doi.org/10.1148/ryai.220239>Link</a>
+> Radiology Artificial Intelligence (2023): <a href=https://doi.org/10.1148/ryai.220239>Link</a>
