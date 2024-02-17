@@ -1,4 +1,4 @@
-""" usage: main_process_single_sequence.py [-h] [-i imagesDir] [-m modelDir] [-s size] [-sp save_path] [-c cutOff] [-p plot]
+""" usage: main_process_single_sequence.py [-h] [-i imagesDir] [-m modelDir] [-s size] [-c cutOff]
 
 Perform Lung Segmentations and Calculate Lung Volume for One MRI Sequence
 
@@ -12,14 +12,12 @@ arguments:
                         Size (value,value) of the image for predictions.
   -t cutOff, --cutOff
                         Threshold value for predictions.
-  -sp save, --save_path
-                        Path to save the numpy masks for lung prediction
-  -p plot, --plot       Set this flag if you want to plot the output.
 """
 
 import os
 import argparse
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from pydicom import dcmread
 from matplotlib import pyplot as plt
@@ -29,14 +27,22 @@ import segmentation_utils
 import lung_volume_utils
 
 
-def segmentation_volume_pipeline(input_sequence_path, models_path, size, cut_off, save_masks_path, generate_plot):
+def segmentation_volume_pipeline(
+    patient_path,
+    models_path=os.path.join('..', 'models', 'all_pat'),
+    size=128, 
+    cut_off=0.5
+):
+    # Assume that the folder with the input sequences is named after the patient_id
+    patient_id = os.path.split(patient_path)[-1]
     # Load DICOM MRI Sequence
     patient_image_array = []
+    input_sequence_path = os.path.join(patient_path, 'input_sequence')
     sequence_names = os.listdir(input_sequence_path)
     sequence_names.sort()
     for i in sequence_names:
         if i[-4:] == '.dcm':
-            dicom_sequence = dcmread(input_sequence_path+i)
+            dicom_sequence = dcmread(os.path.join(input_sequence_path,i))
             image_array = dicom_sequence.pixel_array
             # add channels dim
             image_array_tf = tf.expand_dims(image_array, axis=-1)
@@ -71,17 +77,21 @@ def segmentation_volume_pipeline(input_sequence_path, models_path, size, cut_off
 
     prediction = segmentation_utils.gen_maj_pred_of_images(segmentation_models, cropped_images_tf, cut_off)
     # Plot predicted masks
-    if generate_plot:
-        for i in range(cropped_images.shape[0]):
-            plt.figure(figsize=(20, 10))
-            plt.subplot(121)
-            plt.imshow(cropped_images[i, :, :], cmap='bone', aspect='auto')
-            plt.subplot(122)
-            plt.imshow(prediction[i, :, :, 0], cmap='bone', aspect='auto')
-            plt.show()
+    assert len(cropped_images)==len(prediction)
+    plot_save_path = os.path.join(patient_path, 'plots')
+    if not os.path.exists(plot_save_path):
+        os.mkdir(plot_save_path)
+    for i in range(len(cropped_images)):
+        fig, axs = plt.subplots(ncols=2, figsize=(10, 5))
+        axs[0].imshow(cropped_images[i, :, :], cmap='bone', aspect='auto')
+        axs[1].imshow(prediction[i, :, :, 0], cmap='bone', aspect='auto')
+        plt.savefig(os.path.join(plot_save_path, f'{patient_id}_{i:02d}.png'), dpi=100)
 
     # Save predictions:
-    with open(save_masks_path+'patient_predictions.npy', 'wb') as f:
+    pred_save_path = os.path.join(patient_path, 'predictions')
+    if not os.path.exists(pred_save_path):
+        os.mkdir(pred_save_path)
+    with open(os.path.join(pred_save_path, f'{patient_id}.npy'), 'wb') as f:
         np.save(f, prediction)
 
     # Load DICOM Metadata
@@ -93,6 +103,18 @@ def segmentation_volume_pipeline(input_sequence_path, models_path, size, cut_off
     object_3d = lung_volume_utils.gen_3d_object_from_numpy(prediction, slice_thickness, spacing_between_slices)
     left_volume, right_volume, silhouette = lung_volume_utils.calculate_left_and_right_volume(object_3d, x_spacing, y_spacing)
     overall_volume = lung_volume_utils.calculate_volume(object_3d, x_spacing, y_spacing)
+    
+    # Save extracted features:
+    feature_df = pd.DataFrame({
+        'patient_id': [patient_id],
+        'left_vol': [left_volume],
+        'right_vol': [right_volume],
+        'overall_vol': [overall_volume]
+    })
+    feature_save_path = os.path.join(patient_path, 'extracted_features')
+    if not os.path.exists(feature_save_path):
+        os.mkdir(feature_save_path)
+    feature_df.to_csv(os.path.join(feature_save_path, f'{patient_id}.csv'), index=False)
 
     print('left_volume', left_volume)
     print('right_volume', right_volume)
@@ -105,7 +127,7 @@ def main():
                                      formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument(
         '-i', '--imagesDir',
-        help='Path to the folder with MRI sequence images',
+        help='Path to the folder with patient data',
         type=str,
         default=None,
         required=True,
@@ -126,27 +148,14 @@ def main():
         help='Threshold value for predictions',
         default=0.5,
         type=int)
-    parser.add_argument(
-        '-sp', '--save_path',
-        help='Path to save the generated masks',
-        default=None,
-        required=True,
-    )
-    parser.add_argument(
-        '-p', '--plot',
-        help='Set this flag if you want to plot the output.',
-        action='store_true'
-    )
     args = parser.parse_args()
 
     # Segment the lung and calculate the volumes
     segmentation_volume_pipeline(
-        input_sequence_path=args.imagesDir,
+        patient_path=args.imagesDir,
         models_path=args.modelDir,
         size=args.size,
-        cut_off=args.cutOff,
-        save_masks_path=args.save_path,
-        generate_plot=args.plot,
+        cut_off=args.cutOff
     )
 
 
@@ -157,12 +166,7 @@ if __name__ == '__main__':
     else:
         # Segment the lung and calculate the volumes for One MRI Sequence
         segmentation_volume_pipeline(
-            input_sequence_path='./mri_lung_segmentation/data/sequence/',
-            models_path='./mri_lung_segmentation/models/all_pat',
-            save_masks_path='./mri_lung_segmentation/data/predictions/',
-            size=128,
-            cut_off=0.5,
-            generate_plot=True,
+            patient_path=os.path.join('..', 'data', 'M041uyq')
         )
 
 # Usage example with args:

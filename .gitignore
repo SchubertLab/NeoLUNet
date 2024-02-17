@@ -1,3 +1,8 @@
+# project-specific additions:
+mri_lung_segmentation/data/
+mri_lung_segmentation/models/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
