@@ -135,8 +135,8 @@ def main():
     parser.add_argument(
         '-m', '--modelDir',
         help='Path to the folder with the pre-trained model weights.',
-        default=None,
-        required=True,
+        default=os.path.join('..', 'models', 'all_pat'),
+        required=False,
     )
     parser.add_argument(
         '-s', '--size',
@@ -160,7 +160,7 @@ def main():
 
 
 if __name__ == '__main__':
-    RUN_WITH_CMD = False  # Set to true if running from command line
+    RUN_WITH_CMD = True  # Set to true if running from command line
     if RUN_WITH_CMD:
         main()
     else:
