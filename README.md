@@ -55,6 +55,7 @@
 ── [Statistical Analysis and Figures for Paper](./paper_analysis_figures/1-figures_and_statistical_tests.ipynb)
 
 ## Usage
+Read Use Instructions [instructions](./cover/instructions.md)
 > - Clone the repository
 > ```bash
 > git clone 'git@github.com:SchubertLab/NeoLUNet.git'
@@ -63,6 +64,8 @@
 > ```bash
 > conda env create -f neolunet_env.yml
 > ```
+> Download the pre-trained 2D-UNet models:
+> <a href=https://doi.org/10.5281/zenodo.10686751>Zenodo Link</a>
 
 ## Reference
 > Radiology Artificial Intelligence (2023): <a href=https://doi.org/10.1148/ryai.220239>Link</a>
