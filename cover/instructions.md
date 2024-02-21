@@ -14,8 +14,8 @@
 > Create a folder with the corresponding patient id in the following location:
 > >"mri_lung_segmentation/data/{patient_id}"
 > 
-> Place the .dcm files of the patient MRI images in a sub folder called 'input_sequences'
-> >"mri_lung_segmentation/data/{patient_id}/input_sequences/".
+> Place the .dcm files of the patient MRI images in a sub folder called 'input_sequence'
+> >"mri_lung_segmentation/data/{patient_id}/input_sequence/".
 > 
 > The files should be alphabetically ordered, i.e. (mri_1.dcm, mri_2.dcm...). 
 >
@@ -34,7 +34,7 @@
 > ```
 > Run the script by providing the only required input argument which is the location of your patient folder:
 > ```bash
-> python main_process_single_sequence.py -i '../data/{patient_id}'
+> python main_process_single_sequence.py -i '../data/{patient_id}/'
 > ```
 
 ## 5. Which results are generated?

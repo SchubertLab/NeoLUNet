@@ -64,8 +64,13 @@ Read Use Instructions [instructions](./cover/instructions.md)
 > ```bash
 > conda env create -f neolunet_env.yml
 > ```
-> Download the pre-trained 2D-UNet models:
+
+## Data and Models
+> Download the pre-trained 2D-UNet MRI neonatal lung segmentation models here:
+> 
 > <a href=https://doi.org/10.5281/zenodo.10686751>Zenodo Link</a>
+> 
+> Segmentation performances and features per MRI-sequence also available in the link.
 
 ## Reference
 > Radiology Artificial Intelligence (2023): <a href=https://doi.org/10.1148/ryai.220239>Link</a>
