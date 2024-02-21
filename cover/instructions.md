@@ -1,4 +1,4 @@
-# NeoLUNet
+# NeoLUNet -  Instructions
 
 ## 1. Clone the repository
 > ```bash
@@ -34,7 +34,7 @@
 > ```
 > Run the script by providing the only required input argument which is the location of your patient folder:
 > ```bash
-> python main_process_single_sequence.py -i ../data/{patient_id}
+> python main_process_single_sequence.py -i '../data/{patient_id}'
 > ```
 
 ## 5. Which results are generated?
@@ -44,4 +44,4 @@
 > there are now 3 folders:
 > - plots: a folder with png files visualizing the model predictions on each mri image.
 > - extracted_features: containing a csv file with the extracted features.
-> - predictions: (.npy file containing the model predictions for all provided images, to be used for feature extraction).
+> - predictions: (.npy) file containing the model predictions for all provided images, to be used for feature extraction.
